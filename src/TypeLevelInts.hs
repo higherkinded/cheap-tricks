@@ -60,8 +60,8 @@ type family Fold a where
 
 -- | Parity, simple stuff
 type family GetParity a where
-  GetParity 'Z = 'Even
-  GetParity ('S 'Z) = 'Odd
+  GetParity 'Z          = 'Even
+  GetParity ('S 'Z)     = 'Odd
   GetParity ('S ('S a)) = GetParity a
 
 -- | Negates a type-level number.
@@ -86,10 +86,6 @@ type family a :+ b where
 -- | Subtracts one type-level number from another.
 -- Defined in terms of rewrites to `:+`
 type family a :- b where
-  a :- 'Z   = (Fold a)
-  a :- 'S b = Fold ((Fold a) :+ 'P (Fold b))
-  a :- 'P b = Fold ((Fold a) :+ 'S (Fold b))
-  -- Needless isomorphism but ok
   a :- b    = Fold (Neg (Fold b) :+ (Fold a))
 
 -- | Multiplies two type-level numbers.
